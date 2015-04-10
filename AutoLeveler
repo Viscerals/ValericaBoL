@@ -1,0 +1,263 @@
+-- Jokiblack Auto Level Spells [Updated by ProdigySim] --
+ 
+local version = "0.5"
+ 
+assert(load(Base64Decode("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"), nil, "bt", _ENV))() ScriptStatus("UHKIJLHIGNH") 
+ 
+local abilitySequence = nil
+local qOff, wOff, eOff, rOff = 0,0,0,0
+ 
+function Leveling(id)
+local offsets = {[_Q] = 0x66, [_W] = 0x65, [_E] = 0x64, [_R] = 0x63,}
+  local p = CLoLPacket(0x0017)
+  p.vTable = 0xE90950
+  p:EncodeF(myHero.networkID)
+  p:Encode4(0xC7C7C7C7)
+  p:Encode1(offsets[id])
+  p:Encode1(0x02)
+  p:Encode4(0xA9A9A9A9)
+  p:Encode4(0xD3D3D3D3)
+  p:Encode4(0x00000000)
+  p:Encode1(0x00)
+  SendPacket(p)
+end
+ 
+--[[Add your champs below EG
+  Just One List:
+     { 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, } or
+     {["Show"]={ 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }}
+  Multiple Arrays:
+     {["Show"]={ 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, },
+      ["Show2"]={ 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }}
+      
+      --Added By Deadweight
+--]]
+ 
+function getLevels()
+    local champ = player.charName
+    local skills = nil
+    -- Want a champion disabled? Put "--" in front of their line! --
+    if champ == "Aatrox" then           skills = { 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Ahri" then         skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Akali" then        skills = { 1, 2, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Alistar" then      skills = { 1, 3, 2, 1, 3, 4, 1, 3, 1, 3, 4, 1, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Amumu" then        skills = { 2, 3, 3, 1, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Anivia" then       skills = { 1, 3, 1, 3, 3, 4, 3, 2, 3, 2, 4, 1, 1, 1, 2, 4, 2, 2, }
+    elseif champ == "Annie" then        skills = { 2, 1, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Ashe" then         skills = { 2, 3, 2, 1, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Azir" then         skills = { 2, 1, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Blitzcrank" then   skills = { 1, 3, 2, 3, 2, 4, 3, 2, 3, 2, 4, 3, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "Brand" then        skills = { 2, 3, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Braum" then        skills = { 1, 3, 2, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Caitlyn" then      skills = { 2, 1, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Cassiopeia" then   skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Chogath" then      skills = { 1, 3, 2, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Corki" then        skills = { 1, 2, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 2, 3, 2, 4, 2, 2, }
+    elseif champ == "Darius" then       skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, }
+    elseif champ == "Diana" then        skills = { 2, 1, 2, 3, 1, 4, 1, 1, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "DrMundo" then      skills = { 2, 1, 3, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Draven" then       skills = { 1, 3, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Elise" then        skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, } rOff = -1
+    elseif champ == "Evelynn" then      skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Ezreal" then       skills = { 1, 3, 2, 2, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "FiddleSticks" then skills = { 3, 2, 2, 1, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Fiora" then        skills = { 2, 1, 3, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Fizz" then         skills = { 3, 1, 2, 1, 2, 4, 1, 1, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Galio" then        skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 3, 3, 2, 2, 4, 3, 3, }
+    elseif champ == "Gnar" then         skills = { 1, 3, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Gangplank" then    skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Garen" then        skills = { 1, 2, 3, 3, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Gragas" then       skills = { 1, 3, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, }
+    elseif champ == "Graves" then       skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 3, 4, 3, 3, 3, 2, 4, 2, 2, }
+    elseif champ == "Hecarim" then      skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Heimerdinger" then skills = { 1, 2, 2, 1, 1, 4, 3, 2, 2, 2, 4, 1, 1, 3, 3, 4, 1, 1, }
+    elseif champ == "Irelia" then       skills = { 3, 1, 2, 2, 2, 4, 2, 3, 2, 3, 4, 1, 1, 3, 1, 4, 3, 1, }
+    elseif champ == "Janna" then        skills = { 3, 1, 3, 2, 3, 4, 3, 2, 3, 2, 1, 2, 2, 1, 1, 1, 4, 4, }
+    elseif champ == "JarvanIV" then     skills = { 1, 3, 1, 2, 1, 4, 1, 3, 2, 1, 4, 3, 3, 3, 2, 4, 2, 2, }
+    elseif champ == "Jax" then          skills = { 3, 2, 1, 2, 2, 4, 2, 3, 2, 3, 4, 1, 3, 1, 1, 4, 3, 1, }
+    elseif champ == "Jayce" then        skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, } rOff = -1
+    elseif champ == "Jinx" then         skills = { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Kalista" then      skills = { 3, 2, 1, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Karma" then        skills = { 1, 3, 2, 1, 1, 4, 1, 3, 3, 1, 4, 3, 3, 2, 2, 4, 2, 2, } rOff = -1
+    elseif champ == "Karthus" then      skills = { 1, 3, 2, 1, 1, 4, 1, 1, 3, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Kassadin" then     skills = { 1, 2, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Katarina" then     skills = { 1, 3, 2, 2, 2, 4, 2, 3, 2, 1, 4, 1, 1, 1, 3, 4, 3, 3, }
+    elseif champ == "Kayle" then        skills = { 3, 2, 3, 1, 3, 4, 3, 2, 3, 2, 4, 2, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "Kennen" then       skills = { 1, 3, 2, 2, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Khazix" then       skills = { 1, 3, 1, 2 ,1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "KogMaw" then       skills = { 2, 3, 2, 1, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Leblanc" then      skills = { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, }
+    elseif champ == "LeeSin" then       skills = { 3, 1, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Leona" then        skills = { 1, 3, 2, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Lissandra" then    skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Lucian" then       skills = { 1, 3, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Lulu" then         skills = { 3, 2, 1, 3, 3, 4, 3, 2, 3, 2, 4, 2, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "Lux" then          skills = { 3, 1, 3, 2, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Malphite" then     skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 2, 3, 2, 4, 2, 2, }
+    elseif champ == "Malzahar" then     skills = { 1, 3, 3, 2, 3, 4, 1, 3, 1, 3, 4, 2, 1, 2, 1, 4, 2, 2, }
+    elseif champ == "Maokai" then       skills = { 3, 1, 2, 3, 3, 4, 3, 2, 3, 2, 4, 2, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "MasterYi" then     skills = { 3, 1, 3, 1, 3, 4, 3, 1, 3, 1, 4, 1, 2, 2, 2, 4, 2, 2, }
+    elseif champ == "MissFortune" then  skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "MonkeyKing" then   skills = { 3, 1, 2, 1, 1, 4, 3, 1, 3, 1, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Mordekaiser" then  skills = { 3, 1, 3, 2, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Morgana" then      skills = { ["Mid"] = {2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, },
+                                                   ["Sup"] = {1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }}
+    elseif champ == "Nami" then         skills = { 1, 2, 3, 2, 2, 4, 2, 2, 3, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Nasus" then        skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, }
+    elseif champ == "Nautilus" then     skills = { 2, 3, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Nidalee" then      skills = { 2, 3, 1, 3, 1, 4, 3, 2, 3, 1, 4, 3, 1, 1, 2, 4, 2, 2, } rOff = -1
+    elseif champ == "Nocturne" then     skills = { 1, 2, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Nunu" then         skills = { 3, 1, 3, 2, 1, 4, 3, 1, 3, 1, 4, 1, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Olaf" then         skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Orianna" then      skills = { 1, 3, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Pantheon" then     skills = { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 2, 3, 2, 4, 2, 2, }
+    elseif champ == "Poppy" then        skills = { 3, 2, 1, 1, 1, 4, 1, 2, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, }
+    elseif champ == "Quinn" then        skills = { 3, 1, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Rammus" then       skills = { 1, 2, 3, 3, 3, 4, 3, 2, 3, 2, 4, 2, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "Rek'Sai" then      skills = { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Renekton" then     skills = { 2, 1, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Rengar" then       skills = { 1, 3, 2, 1, 1, 4, 2, 1, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Riven" then        skills = { 1, 2, 3, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Rumble" then       skills = { 3, 1, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Ryze" then         skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Sejuani" then      skills = { 2, 1, 3, 3, 2, 4, 3, 2, 3, 3, 4, 2, 1, 2, 1, 4, 1, 1, }
+    elseif champ == "Shaco" then        skills = { 2, 3, 1, 3, 3, 4, 3, 2, 3, 2, 4, 2, 2, 1, 1, 4, 1, 1, }
+    elseif champ == "Shen" then         skills = { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Shyvana" then      skills = { 2, 1, 2, 3, 2, 4, 2, 3, 2, 3, 4, 3, 1, 3, 1, 4, 1, 1, }
+    elseif champ == "Singed" then       skills = { 1, 3, 1, 3, 1, 4, 1, 2, 1, 2, 4, 3, 2, 3, 2, 4, 2, 3, }
+    elseif champ == "Sion" then         skills = { 1, 3, 3, 2, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Sivir" then        skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 3, 2, 3, 4, 3, 3, }
+    elseif champ == "Skarner" then      skills = { 1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 3, 3, 3, 4, 3, 3, }
+    elseif champ == "Sona" then         skills = { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Soraka" then       skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 3, 4, 2, 3, 2, 3, 4, 2, 3, }
+    elseif champ == "Swain" then        skills = { 2, 3, 3, 1, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Syndra" then       skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Talon" then        skills = { 2, 3, 1, 2, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Taric" then        skills = { 3, 2, 1, 2, 2, 4, 1, 2, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }
+    elseif champ == "Teemo" then        skills = { 1, 3, 2, 3, 1, 4, 3, 3, 3, 1, 4, 2, 2, 1, 2, 4, 2, 1, }
+    elseif champ == "Thresh" then       skills = { 1, 3, 2, 2, 2, 4, 2, 3, 2, 3, 4, 3, 3, 1, 1, 4, 1, 1, }
+    elseif champ == "Tristana" then     skills = { 3, 2, 1, 3, 3, 4, 1, 1, 1, 1, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Trundle" then      skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 3, 4, 2, 3, 2, 3, 4, 2, 3, }
+    elseif champ == "Tryndamere" then   skills = { 3, 1, 2, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "TwistedFate" then  skills = { 2, 1, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Twitch" then       skills = { 1, 3, 3, 2, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 1, 2, 2, }
+    elseif champ == "Udyr" then         skills = { 4, 2, 3, 4, 4, 2, 4, 2, 4, 2, 2, 1, 3, 3, 3, 3, 1, 1, }
+    elseif champ == "Urgot" then        skills = { 3, 1, 1, 2, 1, 4, 1, 2, 1, 3, 4, 2, 3, 2, 3, 4, 2, 3, }
+    elseif champ == "Varus" then        skills = { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Vayne" then        skills = {["Main"] = {1, 2, 3, 2, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }}
+    elseif champ == "Veigar" then       skills = {1, 3, 1, 2, 1, 4, 2, 2, 2, 2, 4, 3, 1, 1, 3, 4, 3, 3, }
+    elseif champ == "Velkoz" then       skills = { 1, 3, 1, 2, 1, 4, 2, 2, 2, 2, 4, 3, 1, 1, 3, 4, 3, 3, }
+    elseif champ == "Vi" then           skills = { 3, 1, 2, 3, 3, 4, 3, 1, 3, 1, 4, 1, 1, 2, 2, 4, 2, 2, }
+    elseif champ == "Viktor" then       skills = { 3, 1, 2, 3, 3, 4, 3, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, }
+    elseif champ == "Vladimir" then     skills = { 1, 2, 1, 3, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Volibear" then     skills = { 2, 3, 2, 1, 2, 4, 3, 2, 1, 2, 4, 3, 1, 3, 1, 4, 3, 1, }
+    elseif champ == "Warwick" then      skills = { 2, 1, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 3, 2, 4, 2, 2, }
+    elseif champ == "Xerath" then       skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "XinZhao" then      skills = { 1, 3, 1, 2, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Yorick" then       skills = { 2, 3, 1, 3, 3, 4, 3, 2, 3, 1, 4, 2, 1, 2, 1, 4, 2, 1, }
+    elseif champ == "Zac" then          skills = { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Zed" then          skills = { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Ziggs" then        skills = { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Zilean" then       skills = { 1, 2, 1, 3, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3, }
+    elseif champ == "Zyra" then         skills = { 3, 2, 1, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Yasuo" then        skills = { 1, 3, 1, 2, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2, }
+    elseif champ == "Bard" then         skills = { ["Sup"]={2, 1, 3, 2, 2, 4, 1, 2, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3, }}
+    else PrintChat(string.format(" >> AutoLevelSpell Script disabled for %s", champ))
+    end
+    
+    return skills
+    
+end
+ 
+local function getKeys(table)
+  local keys = {}
+  for key in pairs(table) do
+    if #keys == 0 then
+      keys[1] = key
+    else
+      keys[#keys+1] = key
+    end
+  end
+  
+  return keys
+end
+ 
+local function PrintALTable(skills)
+  local i = 1
+  PrintChat(string.format(" >> Skill List Below:"))
+  for key in pairs(skills) do
+    PrintChat(string.format("- %s) %s", i, key))
+    i=i+1
+  end
+end
+ 
+function OnTick()
+    if Menu == nil then return end
+    if abilitySequence ~= nil and Menu.AutoLevelspells then
+        AutoLevel()
+    elseif Menu.AutoLevelspells and abilitySequence == nil and Menu.Selection and Menu.Selection>0 then
+      local skills = getLevels()
+      local keys = getKeys(skills)
+      abilitySequence = skills[keys[Menu.Selection]]
+      PrintChat(string.format(" >> Loaded %s", keys[Menu.Selection]))
+    end
+end 
+ 
+function AutoLevel()
+    local qL, wL, eL, rL = player:GetSpellData(_Q).level + qOff, player:GetSpellData(_W).level + wOff, player:GetSpellData(_E).level + eOff, player:GetSpellData(_R).level + rOff
+    if qL + wL + eL + rL < player.level then
+        local spellSlot = { SPELL_1, SPELL_2, SPELL_3, SPELL_4, }
+        local level = { 0, 0, 0, 0 }
+        for i = 1, player.level, 1 do
+    if i<=18 then
+             level[abilitySequence[i]] = level[abilitySequence[i]] + 1
+    end
+        end
+        for i, v in ipairs({ qL, wL, eL, rL }) do
+            if v < level[i] then Leveling(spellSlot[i]) end
+        end
+    end
+end
+ 
+local function loadMenu(champ, skills)
+  
+  if skills and #skills == 18 then
+    PrintChat(string.format(" >> Jokiblack Auto Level Spells %s [Updated by ProdigySim]", version))
+    abilitySequence = skills
+    Menu = scriptConfig("AutoLevel", champ)
+    Menu:addParam("AutoLevelspells", "Auto-Level Spells for "..myHero.charName, SCRIPT_PARAM_ONOFF, true)
+    
+  elseif #getKeys(skills)==1 then
+  
+    local keys = getKeys(skills)
+    abilitySequence = skills[keys[1]]
+    PrintChat(string.format(" >> Jokiblack Auto Level Spells %s [Updated by ProdigySim] using %s", version, keys[1]))
+    Menu = scriptConfig("AutoLevel", champ)
+    Menu:addParam("AutoLevelspells", "Auto-Level Spells for "..myHero.charName, SCRIPT_PARAM_ONOFF, true)
+    
+  elseif #getKeys(skills)>1 then
+  
+    local keys = getKeys(skills)
+    
+    PrintChat(string.format(" >> Jokiblack Auto Level Spells %s [Updated by ProdigySim]", version))
+    PrintALTable(skills)
+    
+    Menu = scriptConfig("AutoLevel", champ)
+    Menu:addParam("AutoLevelspells", "Auto-Level Spells for "..myHero.charName, SCRIPT_PARAM_ONOFF, false)
+    Menu:addParam("Selection", "Select Leveling Type: (below)", SCRIPT_PARAM_SLICE, 1, 1, #keys, 0)
+    Menu.Selection = 0
+    
+  else
+  
+    PrintChat(" >> Error")
+    OnTick = function() end
+    return
+    
+  end
+end
+ 
+function OnLoad()
+    
+    loadMenu(player.charName, getLevels())
+    
+end
